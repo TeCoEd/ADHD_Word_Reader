@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Text Uploader</title>
+    <style>
+      #text-input {
+        width: 80%;
+        font-size: 1.2em;
+      }
+
+      #output {
+        font-size: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <label for="text-input">Enter some text:</label>
+      <br>
+      <textarea id="text-input" name="text-input" rows="10" required></textarea>
+      <br>
+      <button type="submit" id="submit-button">Upload</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+      const form = document.querySelector('form');
+      const textInput = document.querySelector('#text-input');
+      const output = document.querySelector('#output');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const text = textInput.value.trim();
+        // Split the text into an array of words using whitespace as the separator
+        const words = text.split(/\s+/);
+        const outputFragment = document.createDocumentFragment();
+        for (const word of words) {
+          const wordLength = word.length;
+          const boldLength = Math.ceil(wordLength / 2);
+          const wordElement = document.createElement('span');
+          for (let i = 0; i < wordLength; i++) {
+            const charElement = document.createElement('span');
+            charElement.textContent = word[i];
+            if (i < boldLength) {
+              charElement.style.fontWeight = 'bold';
+            }
+            wordElement.appendChild(charElement);
+          }
+          outputFragment.appendChild(wordElement);
+          outputFragment.appendChild(document.createTextNode(' '));
+        }
+        output.textContent = '';
+        output.appendChild(outputFragment);
+      });
+    </script>
+  </body>
+</html>
